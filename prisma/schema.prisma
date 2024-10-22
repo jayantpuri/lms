@@ -16,7 +16,7 @@ datasource db {
 
 model Course {
   id          String   @id @default(uuid())
-  userId      String   @unique
+  userId      String   
   title       String   @db.Text
   description String?  @db.Text
   price       Float?

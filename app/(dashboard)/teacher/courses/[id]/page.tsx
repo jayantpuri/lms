@@ -4,6 +4,10 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { IconBadge } from "@/app/components/icon";
 import { LayoutDashboard } from "lucide-react";
+
+import CourseTitle from "../_components/CourseTitle";
+import CourseDescription from "../_components/CourseDescription";
+import CourseImage from "../_components/CourseImage";
 const CourseId = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
   const course = await db.course.findUnique({
@@ -36,13 +40,18 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex items-center gap-x-2">
-          <IconBadge
-            icon={LayoutDashboard}
-            variant={"default"}
-            size="default"
-          />
-          <h1 className="text-xl font-bold">Customize your course</h1>
+        <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={LayoutDashboard}
+              variant={"default"}
+              size="default"
+            />
+            <h1 className="text-xl font-bold">Customize your course</h1>
+          </div>
+          <CourseTitle course={course} />
+          <CourseDescription course={course} />
+          <CourseImage course={course} />
         </div>
       </div>
     </div>
