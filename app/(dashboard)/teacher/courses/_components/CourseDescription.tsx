@@ -33,7 +33,6 @@ const courseDescriptionSchema = z.object({
 });
 
 const CourseDescription = ({ course }: CourseDescriptionProps) => {
-
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const form = useForm<z.infer<typeof courseDescriptionSchema>>({
@@ -97,7 +96,12 @@ const CourseDescription = ({ course }: CourseDescriptionProps) => {
           </form>
         </Form>
       ) : (
-        <p className="text-slate-700">
+        <p
+          className={cn(
+            "text-slate-700",
+            !course.description && "italic text-muted-foreground"
+          )}
+        >
           {course.description || "Add a description"}
         </p>
       )}

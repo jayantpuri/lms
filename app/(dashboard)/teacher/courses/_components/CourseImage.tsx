@@ -6,33 +6,24 @@ import Image from "next/image";
 
 import { CirclePlus, Pencil, ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
-
 import { cn } from "@/lib/utils";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
 import { FileUpload } from "@/app/components/file-upload";
+
 
 interface CourseImageProps {
   course: Course;
 }
 
 const courseImageSchema = z.object({
-  imageUrl: z.string().min(6, { message: "Image is required" }),
+  imageUrl: z.string().min(0, { message: "Image is required" }),
 });
 
 const CourseImage = ({ course }: CourseImageProps) => {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
-  const form = useForm<z.infer<typeof courseImageSchema>>({
-    resolver: zodResolver(courseImageSchema),
-    defaultValues: {
-      imageUrl: course?.imageUrl || "",
-    },
-  });
-  const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof courseImageSchema>) => {
     try {
       const response = axios.patch(`/api/courses/${course.id}`, values);

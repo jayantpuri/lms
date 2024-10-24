@@ -8,8 +8,14 @@ import { LayoutDashboard } from "lucide-react";
 import CourseTitle from "../_components/CourseTitle";
 import CourseDescription from "../_components/CourseDescription";
 import CourseImage from "../_components/CourseImage";
+import CourseCategory from "../_components/CourseCategory";
 const CourseId = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
+  const category = await db.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
   const course = await db.course.findUnique({
     where: {
       id: params.id,
@@ -52,6 +58,7 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
           <CourseTitle course={course} />
           <CourseDescription course={course} />
           <CourseImage course={course} />
+          <CourseCategory course={course} categories={category} />
         </div>
       </div>
     </div>
