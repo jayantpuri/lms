@@ -2,13 +2,16 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
+
 import { IconBadge } from "@/app/components/icon";
-import { LayoutDashboard } from "lucide-react";
+import { DollarSign, LayoutDashboard, ListVideo } from "lucide-react";
 
 import CourseTitle from "../_components/CourseTitle";
 import CourseDescription from "../_components/CourseDescription";
 import CourseImage from "../_components/CourseImage";
 import CourseCategory from "../_components/CourseCategory";
+import CoursePrice from "../_components/CoursePrice";
+import CourseAttachemnts from "../_components/CourseAttachements";
 const CourseId = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
   const category = await db.category.findMany({
@@ -19,6 +22,13 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.id,
+    },
+    include: {
+      attachments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -59,6 +69,40 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
           <CourseDescription course={course} />
           <CourseImage course={course} />
           <CourseCategory course={course} categories={category} />
+        </div>
+        <div className="flex flex-col gap-y-8">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge
+                icon={ListVideo}
+                variant={"default"}
+                size={"default"}
+              />
+              <h1 className="text-xl font-bold">Course chapters</h1>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge
+                icon={DollarSign}
+                variant={"default"}
+                size={"default"}
+              />
+              <h1 className="text-xl font-bold">Sell your course</h1>
+            </div>
+            <CoursePrice course={course} />
+          </div>
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge
+                icon={DollarSign}
+                variant={"default"}
+                size={"default"}
+              />
+              <h1 className="text-xl font-bold">Course Attachments</h1>
+            </div>
+            <CourseAttachemnts course={course} />
+          </div>
         </div>
       </div>
     </div>
