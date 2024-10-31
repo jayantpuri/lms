@@ -43,7 +43,7 @@ const CoursePrice = ({ course }: CoursePriceProps) => {
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof coursePriceSchema>) => {
     try {
-      const response = axios.patch(`/api/courses/${course.id}`, values);
+      const response = await axios.patch(`/api/courses/${course.id}`, values);
       setEditing(false);
       toast.success("Course price updated");
       router.refresh();

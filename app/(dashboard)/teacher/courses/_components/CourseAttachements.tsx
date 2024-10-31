@@ -25,7 +25,7 @@ const CourseAttachemnts = ({ course }: CourseAttachemntsProps) => {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const onSubmit = async (values: z.infer<typeof courseAttachemntsSchema>) => {
     try {
-      const response = axios.post(
+      const response = await axios.post(
         `/api/courses/${course.id}/attachments`,
         values
       );

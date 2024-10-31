@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 
 import { IconBadge } from "@/app/components/icon";
-import { DollarSign, LayoutDashboard, ListVideo } from "lucide-react";
+import { DollarSign, LayoutDashboard, ListVideo, File } from "lucide-react";
 
 import CourseTitle from "../_components/CourseTitle";
 import CourseDescription from "../_components/CourseDescription";
@@ -12,8 +12,12 @@ import CourseImage from "../_components/CourseImage";
 import CourseCategory from "../_components/CourseCategory";
 import CoursePrice from "../_components/CoursePrice";
 import CourseAttachemnts from "../_components/CourseAttachements";
+import CourseChapters from "../_components/CourseChapters";
 const CourseId = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
+  if (!userId) {
+    return redirect("/");
+  }
   const category = await db.category.findMany({
     orderBy: {
       name: "asc",
@@ -22,6 +26,7 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.id,
+      userId: userId,
     },
     include: {
       attachments: {
@@ -29,10 +34,15 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
           createdAt: "desc",
         },
       },
+      chapters: {
+        orderBy: {
+          position: "asc",
+        },
+      },
     },
   });
 
-  if (!course || !userId) {
+  if (!course) {
     return redirect("/");
   }
   const courseFields = [
@@ -41,6 +51,7 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
     course.price,
     course.imageUrl,
     course.categoryId,
+    course.chapters.some((chapter) => chapter.isPublished),
   ];
   const totalFields = courseFields.length;
   const completedFields = courseFields.filter(Boolean).length;
@@ -80,6 +91,7 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
               />
               <h1 className="text-xl font-bold">Course chapters</h1>
             </div>
+            <CourseChapters course={course} />
           </div>
           <div>
             <div className="flex items-center gap-x-2">
@@ -94,11 +106,7 @@ const CourseId = async ({ params }: { params: { id: string } }) => {
           </div>
           <div>
             <div className="flex items-center gap-x-2">
-              <IconBadge
-                icon={DollarSign}
-                variant={"default"}
-                size={"default"}
-              />
+              <IconBadge icon={File} variant={"default"} size={"default"} />
               <h1 className="text-xl font-bold">Course Attachments</h1>
             </div>
             <CourseAttachemnts course={course} />

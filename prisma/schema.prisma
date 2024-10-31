@@ -57,10 +57,10 @@ model Chapter {
   id          String   @id @default(uuid())
   title       String
   description String?  @db.Text
-  videoUrl    String   @db.Text
+  videoUrl    String?   @db.Text
   position    Int
-  isFree      Boolean  @default(false)
-  isPublished Boolean  @default(false)
+  isFree      Boolean?  @default(false)
+  isPublished Boolean?  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

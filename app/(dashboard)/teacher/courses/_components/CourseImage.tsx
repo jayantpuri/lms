@@ -26,7 +26,7 @@ const CourseImage = ({ course }: CourseImageProps) => {
   const [editing, setEditing] = useState(false);
   const onSubmit = async (values: z.infer<typeof courseImageSchema>) => {
     try {
-      const response = axios.patch(`/api/courses/${course.id}`, values);
+      const response = await axios.patch(`/api/courses/${course.id}`, values);
       setEditing(false);
       toast.success("Course Image updated");
       router.refresh();
