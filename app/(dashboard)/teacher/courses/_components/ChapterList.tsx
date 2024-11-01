@@ -11,6 +11,7 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { title } from "process";
 
 interface ChapterList {
   chapters: Chapter[];
@@ -39,12 +40,20 @@ const ChapterList = ({ chapters, onReorder, onEdit }: ChapterList) => {
     if (!destination || !source) return;
     if (destination.index === source.index) return;
 
-    const [movedChapter] = chapterList.splice(source.index, 1);
-    chapterList.splice(destination.index, 0, movedChapter);
-    setChapterList((prev) => [...chapterList]);
+    const list = Array.from(chapterList);
+    const [movedChapter] = list.splice(source.index, 1);
+    list.splice(destination.index, 0, movedChapter);
+    setChapterList(list);
 
-    onReorder(chapterList);
+    const updatedList = list.map((chapter, index) => {
+      return {
+        ...chapter,
+        position: list.findIndex((c) => c.id === chapter.id) + 1,
+      };
+    });
+    onReorder(updatedList);
   };
+
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <Droppable droppableId="chapters">
