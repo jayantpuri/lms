@@ -68,6 +68,7 @@ const CourseChapters = ({ course }: CourseChaptersProps) => {
         `/api/courses/${course.id}/chapters/reorder`,
         list
       );
+      console.log(result);
       toast.success("Chapters reordered");
       router.refresh();
     } catch (error) {
@@ -78,7 +79,7 @@ const CourseChapters = ({ course }: CourseChaptersProps) => {
   };
 
   const EditChapter = async (id: string) => {
-    console.log("edit chapter");
+    router.push(`/teacher/courses/${course.id}/chapters/${id}`);
   };
 
   return (

@@ -48,7 +48,7 @@ const ChapterList = ({ chapters, onReorder, onEdit }: ChapterList) => {
     const updatedList = list.map((chapter, index) => {
       return {
         ...chapter,
-        position: list.findIndex((c) => c.id === chapter.id) + 1,
+        position: index + 1,
       };
     });
     onReorder(updatedList);
@@ -81,6 +81,7 @@ const ChapterList = ({ chapters, onReorder, onEdit }: ChapterList) => {
                       {chapter.title}
                     </div>
                     <div className="flex gap-x-2">
+                      <Badge className={cn("text-xs bg-red-400/50 text-red-900 hover:bg-red-400", chapter.isFree && "text-sky-700 bg-sky-400/50 hover:bg-sky-400")}>{chapter.isFree ? "Free": "Paid"}</Badge>
                       <Badge
                         variant={
                           chapter.isPublished ? "destructive" : "default"

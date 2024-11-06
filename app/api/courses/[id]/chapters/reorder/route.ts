@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
+import { stat } from "fs";
 
 export const PATCH = async (
   request: Request,
@@ -26,8 +27,6 @@ export const PATCH = async (
 
     let updatedChapters;
     for (let ch of list) {
-        console.log(ch.title);
-        console.log(ch.position);
       updatedChapters = await db.chapter.update({
         where: {
           id: ch.id,
@@ -36,9 +35,10 @@ export const PATCH = async (
           position: ch.position,
         },
       });
-
-      return NextResponse.json(updatedChapters);
     }
+
+    return NextResponse.json({ status: 200 });
+
   } catch (error) {
     console.log("[CHAPTER_REORDER_ERROR]", error);
     return new NextResponse("Internal server error", { status: 500 });

@@ -81,4 +81,8 @@
   }
 }
 
+.ql-container {
+  font-size: 16px !important;
+  min-height: 70px !important;
+}
 @import "~@uploadthing/react/styles.css";
