@@ -59,8 +59,6 @@ const CourseChapters = ({ course }: CourseChaptersProps) => {
     }
   };
 
-  console.log(course.chapters);
-
   const ReorderChapters = async (list: Chapter[]) => {
     setUpdating(true);
     try {
@@ -68,7 +66,6 @@ const CourseChapters = ({ course }: CourseChaptersProps) => {
         `/api/courses/${course.id}/chapters/reorder`,
         list
       );
-      console.log(result);
       toast.success("Chapters reordered");
       router.refresh();
     } catch (error) {
