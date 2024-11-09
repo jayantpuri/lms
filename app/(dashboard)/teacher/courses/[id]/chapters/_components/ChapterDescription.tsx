@@ -31,7 +31,7 @@ interface ChapterDescriptionProps {
 const ChapterDescriptionSchema = z.object({
   description: z
     .string()
-    .min(6, { message: "Chapter title must be at least 6 characters" }),
+    .min(30, { message: "Chapter description must be at least 30 characters" }),
 });
 
 const ChapterDescription = ({ chapter, courseId }: ChapterDescriptionProps) => {

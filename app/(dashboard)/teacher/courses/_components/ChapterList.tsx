@@ -74,17 +74,21 @@ const ChapterList = ({ chapters, onReorder, onEdit }: ChapterList) => {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className="flex justify-between items-center border-r-slate-200 p-2 rounded-md bg-slate-200 text-slate-700"
+                    className="p-2 flex justify-between items-center border-sky-200 border-2 rounded-md bg-sky-100 text-sky-800"
                   >
-                    <div className="flex gap-x-2 items-center text-sm">
-                      <Grip className="h-5 w-5 mr-2 cursor-pointer" />
+                    <div className="flex gap-x-2  items-center text-sm">
+                      <Grip className="h-5 w-5 mr-2 border-r-slate-200 cursor-pointer" />
                       {chapter.title}
                     </div>
                     <div className="flex gap-x-2">
-                      <Badge className={cn("text-xs bg-red-400/50 text-red-900 hover:bg-red-400", chapter.isFree && "text-sky-700 bg-sky-400/50 hover:bg-sky-400")}>{chapter.isFree ? "Free": "Paid"}</Badge>
+                      <Badge className={cn("text-xs bg-yellow-400/70 text-yellow-900 hover:bg-yellow-500", chapter.isFree && "text-green-100 bg-green-600 hover:bg-green-500")}>{chapter.isFree ? "Free": "Paid"}</Badge>
                       <Badge
-                        variant={
-                          chapter.isPublished ? "destructive" : "default"
+                        className={cn(
+                          "text-xs",
+                          chapter.isPublished
+                            ? "bg-sky-800 text-sky-100 hover:bg-sky-500"
+                            : "bg-red-700 text-red-100 hover:bg-red-500"
+                        )
                         }
                       >
                         {chapter.isPublished ? "Published" : "Draft"}

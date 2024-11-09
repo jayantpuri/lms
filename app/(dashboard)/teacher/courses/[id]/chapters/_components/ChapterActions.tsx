@@ -31,13 +31,15 @@ const ChapterActions = ({
         await axios.patch(
           `/api/courses/${courseId}/chapters/${chapter.id}/publish`
         );
+        toast.success("Chapter published");
       } else {
         await axios.patch(
           `/api/courses/${courseId}/chapters/${chapter.id}/unpublish`
         );
+        toast.success("Chapter unpublished");
       }
       router.refresh();
-      toast.success("Chapter updated");
+     
     } catch (error) {
       toast.error("Error updating chapter");
     } finally {
@@ -51,8 +53,8 @@ const ChapterActions = ({
       const response = await axios.delete(
         `/api/courses/${courseId}/chapters/${chapter.id}`
       );
-      router.refresh();
       router.push(`/teacher/courses/${courseId}`);
+      router.refresh();
       toast.success("Chapter deleted");
     } catch (error) {
       toast.error("Error deleting chapter");
@@ -61,15 +63,15 @@ const ChapterActions = ({
     }
   };
   return (
-    <div className="mt-8 self-center justify-self-end mr-6">
+    <div className="mt-8 self-center justify-self-start">
       <div className="flex gap-x-2 items-center">
         <Button
           variant={"outline"}
-          disabled={!canPublish}
+          disabled={canPublish}
           onClick={publishChapter}
           size={"sm"}
         >
-          {canPublish ? "Publish" : "Unpublish"}
+          {!chapter.isPublished ? "Publish" : "Unpublish"}
         </Button>
         <AlertModal onDelete={deleteChapter}>
           <Button variant={"default"} size={"sm"} disabled={loading}>

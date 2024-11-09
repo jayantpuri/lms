@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
-import { Chapter } from "@prisma/client";
+import { Chapter, MuxData } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 import { CirclePlus, Pencil, VideoIcon } from "lucide-react";
@@ -13,7 +13,7 @@ import axios from "axios";
 import { FileUpload } from "@/app/components/file-upload";
 
 interface ChapterImageProps {
-  chapter: Chapter;
+  chapter: Chapter & { muxData: MuxData | null };
   courseId: string;
 }
 

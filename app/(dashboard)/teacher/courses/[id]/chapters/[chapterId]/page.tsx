@@ -31,6 +31,9 @@ const ChapterPage = async ({
       id: chapterId,
       courseId: courseId,
     },
+    include: {
+      muxData: true,
+    }
   });
 
   if (!chapter) {
@@ -55,7 +58,7 @@ const ChapterPage = async ({
           }
         />
       )}
-      <div className="p-6 lg:max-w-[90%] mx-auto">
+      <div className="p-6 mx-auto">
         <div className="w-full grid grid-cols-2">
           <div>
             <div className="w-full flex flex-col gap-y-6">
@@ -78,7 +81,7 @@ const ChapterPage = async ({
             <ChapterActions
               chapter={chapter}
               courseId={courseId}
-              canPublish={canPublish}
+              canPublish={!canPublish}
             />
           </>
         </div>
