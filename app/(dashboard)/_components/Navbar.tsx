@@ -1,6 +1,7 @@
 "use client";
 import MobileSidebar from "./mobileSidebar";
 import NavbarRoutes from "./NavbarRoutes";
+import SearchBox from "./SearchBox";
 
 import { UserButton } from "@clerk/nextjs";
 const Navbar = () => {
@@ -8,6 +9,9 @@ const Navbar = () => {
     <div className="w-full h-full flex justify-between items-center p-6 shadow-sm">
       <div className="md:hidden">
         <MobileSidebar />
+      </div>
+      <div className="md:flex hidden">
+        <SearchBox />
       </div>
       <div className="md:w-full flex gap-x-6 items-center justify-end">
         <div>
