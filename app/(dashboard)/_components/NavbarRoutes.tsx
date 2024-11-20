@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const NavbarRoutes = () => {
     const currentPath = usePathname();
     let isTeacherMode = currentPath.startsWith("/teacher");
-    let isPlayerMode = currentPath.includes("/chapter");
+    let isPlayerMode = currentPath.includes("/chapters");
 
   return (
     <div>
