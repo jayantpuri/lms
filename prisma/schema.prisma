@@ -106,6 +106,7 @@ model Purchase {
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@index([courseId])
+  @@unique([courseId, userId])
 }
 
 model StripeCustomer {
