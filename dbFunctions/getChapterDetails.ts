@@ -1,4 +1,11 @@
 import { db } from "@/lib/db";
+import {
+  Purchase,
+  Attachment,
+  Chapter,
+  UserProgress,
+  MuxData,
+} from "@prisma/client";
 
 interface getChapterDetailsProps {
   courseId: string;
@@ -10,10 +17,11 @@ export const getChapterDetails = async ({
   chapterId,
   userId,
 }: getChapterDetailsProps) => {
-  let chapter;
-  let muxData;
-  let userProgress;
-  let purchase;
+  let chapter: Chapter | null;
+  let muxData: MuxData | null;
+  let userProgress: UserProgress | null;
+  let purchase: Purchase | null;
+  let attachments: Attachment[] | null;
   try {
     chapter = await db.chapter.findUnique({
       where: {
@@ -27,7 +35,8 @@ export const getChapterDetails = async ({
       muxData = null;
       userProgress = null;
       purchase = null;
-      return { chapter, muxData, userProgress, purchase };
+      attachments = null;
+      return { chapter, muxData, userProgress, purchase, attachments };
     }
 
     purchase = await db.purchase.findUnique({
@@ -43,7 +52,8 @@ export const getChapterDetails = async ({
       muxData = null;
       userProgress = null;
       purchase = null;
-      return { chapter, muxData, userProgress, purchase };
+      attachments = null;
+      return { chapter, muxData, userProgress, purchase, attachments };
     }
 
     muxData = await db.muxData.findUnique({
@@ -64,13 +74,20 @@ export const getChapterDetails = async ({
       purchase = null;
     }
 
-    return { chapter, muxData, userProgress, purchase };
+    attachments = await db.attachment.findMany({
+      where: {
+        courseId: courseId,
+      },
+    });
+
+    return { chapter, muxData, userProgress, purchase, attachments };
   } catch (error) {
     console.log("[getChapterDetails] error", error);
     userProgress = null;
     muxData = null;
     chapter = null;
     purchase = null;
-    return { chapter, muxData, userProgress, purchase };
+    attachments = null;
+    return { chapter, muxData, userProgress, purchase, attachments };
   }
 };

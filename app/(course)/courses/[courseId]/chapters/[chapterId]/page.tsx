@@ -8,7 +8,6 @@ import PublishBanner from "@/app/components/publishBanner";
 import EnrollButton from "./_components/EnrollButton";
 import TextPreview from "@/app/components/TextPreview";
 import { Separator } from "@/components/ui/separator";
-import MuxPlayer from "@mux/mux-player-react";
 import VideoPlayer from "./_components/VideoPlayer";
 interface chapterPageProps {
   params: {
@@ -37,22 +36,29 @@ const chapterIdPage = async ({ params }: chapterPageProps) => {
     redirect("/");
   }
 
-  const { muxData, userProgress, chapter, purchase } = await getChapterDetails({
-    courseId: courseId,
-    userId: userId,
-    chapterId: chapterId,
-  });
+  const { muxData, userProgress, chapter, purchase, attachments } =
+    await getChapterDetails({
+      courseId: courseId,
+      userId: userId,
+      chapterId: chapterId,
+    });
 
   if (!chapter) {
     redirect(`/courses/${courseId}`);
   }
-
+  
   return (
     <div>
       {(!chapter.isFree || !purchase) && (
         <PublishBanner
           variant={"warning"}
           label="You need to purchase this course to access this chapter"
+        />
+      )}
+      {userProgress != null && userProgress.isCompleted === true && (
+        <PublishBanner
+          variant={"success"}
+          label="You have completed this chapter"
         />
       )}
       <div className="p-6 max-w-4xl mx-auto">
@@ -65,7 +71,7 @@ const chapterIdPage = async ({ params }: chapterPageProps) => {
         </div>
         <div className="flex mt-12 justify-between">
           <h3 className="text-xl font-bold"> {chapter.title}</h3>
-          {!purchase && <EnrollButton price={course.price!} />}
+          {!purchase && <EnrollButton price={course.price!} courseId={courseId}/>}
         </div>
       </div>
       <Separator className="w-full" />
