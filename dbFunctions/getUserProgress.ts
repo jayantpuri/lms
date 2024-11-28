@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { UserProgress, Chapter } from "@prisma/client";
 
 interface getUserProgressProps {
   courseId: string;
@@ -24,6 +23,7 @@ export const getUserProgress = async ({
       where: {
         userId: userId,
         chapterId: { in: chapterIds },
+        isCompleted: true,
       },
     });
 

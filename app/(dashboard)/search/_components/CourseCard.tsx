@@ -5,6 +5,7 @@ import { Notebook } from "lucide-react";
 
 import { priceFormat } from "@/lib/priceFormatter";
 import { IconBadge } from "@/app/components/icon";
+import CourseProgress from "@/app/components/CourseProgress";
 
 interface courseCardProps {
   courseId: string;
@@ -14,6 +15,7 @@ interface courseCardProps {
   chapters: number;
   price: number;
   progress: number | null;
+  isPurchased: boolean;
 }
 
 const CourseCard = ({
@@ -24,6 +26,7 @@ const CourseCard = ({
   chapters,
   price,
   progress,
+  isPurchased,
 }: courseCardProps) => {
   return (
     <Link href={`/courses/${courseId}`}>
@@ -40,9 +43,13 @@ const CourseCard = ({
             <IconBadge icon={Notebook} size={"sm"} /> {chapters}
             {chapters === 1 ? " chapter" : " chapters"}
           </span>
-          <span className="text-md md:text-sm font-medium text-slate-700">
-            {priceFormat(price)}
-          </span>
+          {!isPurchased ? (
+            <span className="text-md md:text-sm font-medium text-slate-700">
+              {priceFormat(price)}
+            </span>
+          ) : (
+            <CourseProgress progress={progress!} />
+          )}
         </div>
       </div>
     </Link>

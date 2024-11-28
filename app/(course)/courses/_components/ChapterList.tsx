@@ -25,13 +25,13 @@ const ChapterList = ({
   return (
     <button
       onClick={() => router.push(`/courses/${courseId}/chapters/${chapterId}`)}
-      className={cn("flex", isSelected && "bg-slate-100")}
+      className={cn("flex", isSelected && "bg-slate-100", isCompleted && isSelected && "bg-emerald-100/50")}
     >
       <div
         className={cn(
           "flex items-center justify-start gap-x-2 p-4 text-slate-500 hover:text-slate-800/50 transition-all",
-          isSelected && "text-slate-900  hover:text-slate-600 transition-all",
-          isCompleted && "text-emerald-700  hover:text-emerald-800 transition-all"
+          isSelected && "text-slate-900  hover:text-slate-700 transition-all",
+          isCompleted && "text-emerald-700 hover:text-emerald-800 transition-all"
         )}
       >
         <span>

@@ -25,6 +25,7 @@ const CourseList = ({ items }: CourseListProps) => {
           chapters={item.chapters.length}
           category={item.category?.name!}
           progress={item.progress}
+          isPurchased = {!!item?.purchases?.find((purchase: Purchase)=> purchase.courseId === item.id)}
         />
       ))}
     </div>

@@ -19,6 +19,7 @@ const VideoPlayer = ({ playbackId, canAccess, title }: VideoPlayerProps) => {
       )}
       {canAccess ? (
         <MuxPlayer
+          className="w-full h-full"
           title={title}
           playbackId={playbackId!}
           onCanPlay={() => setIsReady(true)}
