@@ -27,9 +27,9 @@ export const getUserProgress = async ({
       },
     });
 
-    const watchedChapters = progress/ chapterIds.length * 100;
+    const watchedChapters = (progress/ chapterIds.length * 100).toFixed(2);
 
-    return watchedChapters;
+    return parseFloat(watchedChapters);
   } catch (error) {
     console.log("[User Progress] error", error);
     return 0;

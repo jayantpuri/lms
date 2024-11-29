@@ -28,6 +28,7 @@ const CourseCard = ({
   progress,
   isPurchased,
 }: courseCardProps) => {
+  console.log("purchases?", isPurchased);
   return (
     <Link href={`/courses/${courseId}`}>
       <div className="group p-3 hover:shadow-md transition-all bg-slate-50 rounded-md border-2 border-slate-300 flex flex-col">
